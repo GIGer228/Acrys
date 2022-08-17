@@ -1,0 +1,22 @@
+{
+  "name": "acrys",
+  "version": "1.0.0",
+  "description": "a multi-purpose discord bot for #project2k22 minecraft server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GIGer228/Acrys.git"
+  },
+  "author": "M[oo]N_R[av]E#2739",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GIGer228/Acrys/issues"
+  },
+  "homepage": "https://github.com/GIGer228/Acrys#readme",
+  "dependencies": {
+    "discord.js": "^14.2.0"
+  }
+}
