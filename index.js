@@ -1,14 +1,12 @@
-//Require the necessary discord.js classes
-const {Client, GatewayIntentBits} = require('discord.js');
-
-const fs = require('node:js');
+const fs = require('node:fs');
 const path = require('node:path');
-const {Client, Collection, GatewayIntentBits} = require('discord.js');
+//Require the necessary discord.js classes
+const {Client, Collection, GatewayIntentBits, embedLength} = require('discord.js');
 const {token} = require('./config.json');
 
 //Create a new client instance
 const client = new Client({intents: [GatewayIntentBits.Guilds]});
-
+//Creating a Collection of commands
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
@@ -21,12 +19,20 @@ for (const file of commandFiles){
     // With the key as the command name and the value as the exported module
     client.commands.set(command.data.name, command);
 }
+//Setting up the event register
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-//When the client is ready, run this code (only once)
-client.once('ready', () => {
-    console.log('Acrys client is ready!');
-});
-
+for (const file of eventFiles){
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
+    if (event.once){
+        client.once(event.name, (... args) => event.execute(... args));
+    }else{
+        client.on(event.name, (... args) => event.execute(... args));
+    }
+}
+//Setting up the command listener
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
